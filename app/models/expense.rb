@@ -1,5 +1,4 @@
 class Expense < ApplicationRecord
   belongs_to :user
-
-  validates_presence_of :amount, :description
+  self.per_page = 50
 end

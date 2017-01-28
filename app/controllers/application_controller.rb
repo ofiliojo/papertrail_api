@@ -29,4 +29,10 @@ class ApplicationController < ActionController::API
   def render_error(resource, status)
     render json: resource, status: status, adapter: :json_api, serializer: ActiveModel::Serializer::ErrorSerializer
   end
+
+  def default_meta
+    {
+      authors: ['Ofili']
+    }
+  end
 end
