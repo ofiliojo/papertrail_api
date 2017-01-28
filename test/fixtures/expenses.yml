@@ -1,0 +1,8 @@
+<% 6.times do |i| %>
+<% 25.times do |n| %>
+article_<%= i %>_<%= n %>:
+  description: <%= "Example content #{i}/#{n}" %>
+  user: <%= "user_#{i}" %>
+  amount: <%= rand(0.01...999999999999999.99) %>
+<% end %>
+<% end %>
