@@ -4,7 +4,7 @@ class ExpensesController < ApplicationController
   before_action :validate_type, only: [:create, :update]
 
   def index
-    if @current_user.admin == true
+    if @current_user.admin
       expenses = Expense.all
     else
       expenses = @current_user.expenses
@@ -17,29 +17,46 @@ class ExpensesController < ApplicationController
   end
 
   def show
-    render json: @expense, meta: default_meta
+    if @current_user.id == @expense.user_id
+      render json: @expense, meta: default_meta
+    else
+      head 403
+    end
   end
 
   def create
     expense = Expense.new(expense_params)
-    if expense.save
-      render json: expense, status: :created, meta: default_meta
+    if @current_user.id == expense.user_id
+      if expense.save
+        render json: expense, status: :created, meta: default_meta
+      else
+        render_error(expense, :unprocessable_entity)
+      end
     else
-      render_error(expense, :unprocessable_entity)
+      head 403
     end
   end
 
   def update
-    if @expense.update_attributes(expense_params)
-      render json: @expense, status: :ok, meta: default_meta
+    if @current_user.id == @expense.user_id
+      if @expense.update_attributes(expense_params)
+        render json: @expense, status: :ok, meta: default_meta
+      else
+        render_error(@expense, :unprocessable_entity)
+      end
     else
-      render_error(@expense, :unprocessable_entity)
+      head 403
     end
   end
 
   def destroy
-    @expense.destroy
-    head 204
+    if @current_user.id == @expense.user_id
+      @expense.destroy
+      head 204
+    else
+      head 403
+    end
+
   end
 
   private

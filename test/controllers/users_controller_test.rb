@@ -39,14 +39,14 @@ class UsersControllerTest < ActionController::TestCase
   test "Creating new user without sending X-Api-Key should result in error" do
     @request.headers["Content-Type"] = 'application/vnd.api+json'
     post :create, params: {}
-    assert_response 403
+    assert_response 409
   end
 
   test "Creating new user with incorrect X-Api-Key should result in error" do
     @request.headers["Content-Type"] = 'application/vnd.api+json'
     @request.headers["X-Api-Key"] = '0000'
     post :create, params: {}
-    assert_response 403
+    assert_response 409
   end
 
   test "Creating new user with invalid type in JSON data should result in error" do

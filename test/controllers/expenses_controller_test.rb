@@ -30,7 +30,7 @@ class ExpensesControllerTest < ActionController::TestCase
     user = users('user_1')
     ecount = Expense.count - 1
     @request.headers["X-Api-Key"] = user.token
-    delete :destroy, params: { id: expenses('article_5_24').id }
+    delete :destroy, params: { id: expenses('article_1_24').id}
     assert_response 204
     assert_equal ecount, Expense.count
   end
