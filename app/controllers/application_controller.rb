@@ -32,6 +32,7 @@ class ApplicationController < ActionController::API
     end
   end
 
+
   def validate_user
     head 403 and return unless @current_user
   end

@@ -4,15 +4,17 @@ require 'json'
 class ExpensesControllerTest < ActionController::TestCase
 
   test "Should get valid list of expenses" do
-    get :index, params: { page: { number: 2 } }
-    assert_response :success
-    jdata = JSON.parse response.body
-    assert_equal Expense.per_page, jdata['data'].length
-    assert_equal jdata['data'][0]['type'], 'expenses'
-    l = jdata['links']
-    assert_equal l['first'], l['prev']
-    assert_equal l['last'], l['next']
-    assert_equal Expense.count, jdata['meta']['total-count']
+    if @current_user
+      get :index, params: { page: { number: 1 } }
+      assert_response :success
+      jdata = JSON.parse response.body
+      assert_equal Expense.per_page, jdata['data'].length
+      assert_equal jdata['data'][0]['type'], 'expenses'
+      l = jdata['links']
+      assert_equal l['first'], l['prev']
+      assert_equal l['last'], l['next']
+      assert_equal @current_user.expenses.count, jdata['meta']['total-count']
+    end
   end
 
   test "Should get JSON:API error block when requesting post data with invalid ID" do

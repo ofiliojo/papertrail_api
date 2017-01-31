@@ -11,7 +11,7 @@ class SessionFlowTestTest < ActionDispatch::IntegrationTest
     assert_response :success
     jdata = JSON.parse response.body
     # Log in
-    post '/sessions',
+    post '/api/sessions',
          params: {
            data: {
              type: 'sessions',

@@ -4,7 +4,11 @@ class ExpensesController < ApplicationController
   before_action :validate_type, only: [:create, :update]
 
   def index
-    expenses = Expense.all
+    if @current_user.admin == true
+      expenses = Expense.all
+    else
+      expenses = @current_user.expenses
+    end
     if params[:filter]
       expenses = expenses.where(["created_at < ?", params[:filter]])
     end
@@ -48,6 +52,9 @@ class ExpensesController < ApplicationController
       render_error(expense, 404) and return
     end
   end
+
+
+
 
   def expense_params
     ActiveModelSerializers::Deserialization.jsonapi_parse(params)

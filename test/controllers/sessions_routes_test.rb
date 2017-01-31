@@ -2,11 +2,11 @@ require 'test_helper'
 
 class SessionsRoutesTest < ActionController::TestCase
   test "should route to create session" do
-    assert_routing({ method: 'post', path: '/sessions' },
+    assert_routing({ method: 'post', path: 'api/sessions' },
                    { controller: "sessions", action: "create" })
   end
   test "should route to delete session" do
-    assert_routing({ method: 'delete', path: '/sessions/something'},
+    assert_routing({ method: 'delete', path: 'api/sessions/something'},
                    { controller: "sessions", action: "destroy", id: "something" })
   end
 end
